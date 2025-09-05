@@ -18,7 +18,7 @@ jobs:
       - run: pip install requests
 
       - name: Run snapshot script
-        run: python snapshot.py
+        run: python fantasycalc_collector.py
 
       - name: Commit JSON snapshot
         run: |
