@@ -1,0 +1,12 @@
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Ignore outputs in notebooks (optional, if you want to clear outputs before committing)
+*.ipynb_checkpoints
+*.pyc
+.DS_Store
+.env
+
+# Python virtual environments
+venv/
+.venv/
