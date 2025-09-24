@@ -2,8 +2,9 @@ name: FantasyCalc Snapshot
 
 on:
   schedule:
-    - cron: "0 7 * * *"   # Runs every day at 07:00 UTC (2 AM EST)
-  workflow_dispatch:       # Manual run button in GitHub
+    - cron: "0 7 * * *"   # Runs every day at 07:00 UTC
+    - cron: "0 7 * * 3"   # Runs every Wednesday at 07:00 UTC
+  workflow_dispatch:
 
 jobs:
   snapshot:
@@ -26,4 +27,30 @@ jobs:
           git config --global user.name "github-actions"
           git add data/*.json
           git commit -m "Add FantasyCalc snapshot" || echo "No new files"
+          git push
+
+  visualize:
+    runs-on: ubuntu-latest
+    needs: snapshot
+    # Only run on Wednesday scheduled events or manual dispatch
+    if: github.event.schedule == '0 7 * * 3' || github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - run: pip install pandas matplotlib nbconvert
+
+      - name: Run data visualization notebook
+        run: |
+          jupyter nbconvert --to notebook --execute data_visualization.ipynb --output data_visualization_output.ipynb
+
+      - name: Commit visualization output
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "github-actions"
+          git add data_visualization_output.ipynb
+          git commit -m "Add visualization output" || echo "No changes to commit"
           git push
