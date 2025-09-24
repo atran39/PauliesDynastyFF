@@ -41,7 +41,10 @@ jobs:
         with:
           python-version: "3.11"
 
-      - run: pip install pandas matplotlib nbconvert
+      - run: pip install -r requirements.txt nbconvert ipykernel
+
+      - name: Install Python kernel for Jupyter
+        run: python -m ipykernel install --user --name=python3
 
       - name: Run data visualization notebook
         run: |
