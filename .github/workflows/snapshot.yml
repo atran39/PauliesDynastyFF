@@ -33,6 +33,14 @@ jobs:
     needs: snapshot
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Pull latest snapshot changes
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "github-actions"
+          git pull origin ${{ github.ref }}
 
       - uses: actions/setup-python@v5
         with:
@@ -46,14 +54,3 @@ jobs:
       - name: Run data visualization notebook
         run: |
           jupyter nbconvert --to notebook --execute data_visualization.ipynb --output data_visualization_output.ipynb
-
-      - name: Pull latest changes before commit
-        run: git pull --rebase
-
-      - name: Commit visualization output
-        run: |
-          git config --global user.email "actions@github.com"
-          git config --global user.name "github-actions"
-          git add data_visualization_output.ipynb
-          git commit -m "Add visualization output" || echo "No changes to commit"
-          git push
