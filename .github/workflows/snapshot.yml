@@ -2,7 +2,7 @@ name: FantasyCalc Snapshot
 
 on:
   schedule:
-    - cron: "0 7 * * *"   # Runs at 7 AM UTC = 2 AM EST / 3 AM EDT
+    - cron: "0 7 * * 1"   # Runs at 7 AM UTC = 2 AM EST / 3 AM EDT every Monday during offseason
   workflow_dispatch:
 
 jobs:
