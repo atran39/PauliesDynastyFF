@@ -3,7 +3,7 @@ import json
 from datetime import datetime, timezone
 import os
 
-API_URL = "https://api.fantasycalc.com/leagues/1197273263458230272"
+API_URL = "https://api.fantasycalc.com/leagues/1312337490140475392"
 PARAMS = {
     "site": "sleeper",
 }
